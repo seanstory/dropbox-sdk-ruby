@@ -579,7 +579,7 @@ class DropboxOAuth2Flow < DropboxOAuth2FlowBase
   # * query_params: The query params on the GET request to your redirect URI.
   #
   # Returns a tuple of (access_token, user_id, url_state).  access_token can be used to
-  # construct a DropboxClient.  user_id is the Dropbox user ID of the user that jsut approved
+  # construct a DropboxClient.  user_id is the Dropbox user ID of the user that just approved
   # your app.  url_state is the value you originally passed in to start().
   #
   # Can throw BadRequestError, BadStateError, CsrfError, NotApprovedError,
