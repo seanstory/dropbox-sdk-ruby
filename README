@@ -1,3 +1,10 @@
+=====================================================================================================
+WARNING: THIS GEM USES THE NOW DEPRECATED V1 API; APPS USING IT WILL NOT BE ACCEPTED INTO PRODUCTION.
+=====================================================================================================
+More info: https://blogs.dropbox.com/developers/2016/06/api-v1-deprecated/
+=====================================================================================================
+
+
 Dropbox Core SDK for Ruby
 
 A Ruby library that for Dropbox's HTTP-based Core API.
