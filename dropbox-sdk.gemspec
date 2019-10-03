@@ -5,7 +5,7 @@
 Gem::Specification.new do |s|
   s.name = "dropbox-sdk"
 
-  s.version = "1.6.5"
+  s.version = "1.6.6"
   s.license = 'MIT'
 
   s.authors = ["Dropbox, Inc."]
@@ -15,7 +15,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "minitest", "~> 4.3.2"
   s.add_development_dependency "rake"
-  s.add_development_dependency "test-unit"
   s.add_development_dependency "test-unit", "~> 3.1.2"
 
   s.homepage = "http://www.dropbox.com/developers/"

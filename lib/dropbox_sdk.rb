@@ -433,13 +433,27 @@ class DropboxOAuth2FlowBase  # :nodoc:
     @locale = locale
   end
 
-  def _get_authorize_url(redirect_uri, state)
+  def _get_authorize_url(redirect_uri, state, query_params = {})
+
+    require_role = query_params["require_role"]
+    if (not require_role.nil?) && require_role != "work" && require_role != "personal"
+      raise BadRequestError.new("Query parameter 'require_role', if set, must be either 'work' or 'personal'")
+    end
+
+    force_reapprove = query_params["force_reapprove"] || false
+    disable_signup = query_params["disable_signup"] || false
+    force_reauthentication = query_params["force_reauthentication"] || false
+
     params = {
       "client_id" => @consumer_key,
       "response_type" => "code",
       "redirect_uri" => redirect_uri,
       "state" => state,
       "locale" => @locale,
+      "require_role" => require_role,
+      "force_reapprove" => force_reapprove,
+      "disable_signup" => disable_signup,
+      "force_reauthentication" => force_reauthentication,
     }
 
     host = Dropbox::WEB_SERVER
@@ -504,8 +518,8 @@ class DropboxOAuth2FlowNoRedirect < DropboxOAuth2FlowBase
 
   # Returns a authorization_url, which is a page on Dropbox's website.  Have the user
   # visit this URL and approve your app.
-  def start()
-    _get_authorize_url(nil, nil)
+  def start(params = {})
+    _get_authorize_url(nil, nil, params)
   end
 
   # If the user approves your app, they will be presented with an "authorization code".
@@ -558,7 +572,7 @@ class DropboxOAuth2Flow < DropboxOAuth2FlowBase
   #   process.  This exact value will be returned to you by finish().
   #
   # Returns the URL to redirect the user to.
-  def start(url_state=nil)
+  def start(url_state=nil, params = {})
     unless url_state.nil? or url_state.is_a?(String)
       raise ArgumentError, "url_state must be a String"
     end
@@ -570,7 +584,7 @@ class DropboxOAuth2Flow < DropboxOAuth2FlowBase
     end
     @session[@csrf_token_session_key] = csrf_token
 
-    return _get_authorize_url(@redirect_uri, state)
+    return _get_authorize_url(@redirect_uri, state, params)
   end
 
   # Call this after the user has visited the authorize URL (see: start()), approved your app,
